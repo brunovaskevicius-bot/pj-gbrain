@@ -29,19 +29,23 @@ async function main() {
     process.exit(0);
   }
 
+  const toolName = String(input.tool_name ?? "").replace(/^mcp__gbrain__/, "");
   const toolInput = input.tool_input ?? {};
   const author = toolInput.author ?? "desconhecido";
   const type = toolInput.type ?? "nota";
 
-  if (type === "status") {
+  if (toolName === "save_memory" && type === "status") {
     const sessionId = String(input.session_id ?? "unknown");
     fs.mkdirSync(MARKER_DIR, { recursive: true });
     fs.writeFileSync(path.join(MARKER_DIR, `${sessionId}.status-saved`), new Date().toISOString());
   }
 
+  const label =
+    toolName === "save_memory" ? `${type} de ${author}` : `${toolName || "ação"} de ${author}`;
+
   try {
-    execSync("git add memory", { cwd: REPO_DIR, stdio: "ignore" });
-    execSync(`git commit -m "gbrain: ${type} de ${author}" --quiet`, {
+    execSync("git add memory cards", { cwd: REPO_DIR, stdio: "ignore" });
+    execSync(`git commit -m "gbrain: ${label}" --quiet`, {
       cwd: REPO_DIR,
       stdio: "ignore",
     });

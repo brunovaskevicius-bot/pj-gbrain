@@ -6,12 +6,21 @@ Memória coletiva de agentes via MCP. Testado end-to-end em 13/08/2026 (ver `(C)
 
 Um servidor MCP fino sobre markdown com frontmatter versionado em git (`memory/*.md`). Sem vector DB, sem grafo — de propósito. A pesquisa mostrou que pra essa escala (dezenas/centenas de registros, crescimento orgânico), busca por palavra-chave resolve, e vetor/grafo só valem a pena quando isso parar de escalar.
 
-Expõe 4 tools MCP:
+Expõe 8 tools MCP:
 
+**Memória (imutável, um arquivo por registro em `memory/*.md`):**
 - **`search_memory(query, limit?)`** — busca por palavra-chave em título/tags/conteúdo, com scoring simples e snippet.
 - **`save_memory(title, content, type?, tags?, author, related?)`** — grava uma memória nova, com detecção de possível duplicata por similaridade de título (aviso, não bloqueio).
 - **`list_recent_memory(limit?)`** — lista as memórias mais recentes, pra retomar contexto de trabalho de outra pessoa.
 - **`team_status()`** — retorna o status mais recente de CADA pessoa (não o histórico) — responde direto "no que cada um tá trabalhando agora". Cada status pode ter um `nextStep` — o próximo passo declarado por quem salvou.
+
+**Cards / kanban do time (mutável, um arquivo por card em `cards/*.md`):**
+- **`list_cards(status?, assignee?)`** — vê o board: backlog, em andamento (`doing`) e concluídos (`done`), com dono de cada um.
+- **`create_card(title, description, author, tags?, assignee?)`** — abre um card novo, começa em `backlog`.
+- **`claim_card(slug, author, note?)`** — assume um card do backlog: vira `doing` + você como dono.
+- **`update_card(slug, status?, assignee?, note?, author)`** — muda status/dono e/ou registra uma nota no histórico do card (aprendizado, progresso, bloqueio).
+
+Toda mudança de card também reescreve automaticamente a nota `05 System/(C) Board — Kanban de Cards (GBRAIN).md` — um board em markdown puro (sem depender do plugin Dataview, que não está instalado neste vault) que você abre no Obsidian pra ver o estado atual sem precisar perguntar ao Claude.
 
 ## O que colocar aqui — taxonomia de `type`
 
@@ -60,9 +69,9 @@ Configurados em `.claude/settings.json` na raiz do projeto — cada pessoa (voc�
 
 | Hook | Evento | O que faz |
 |---|---|---|
-| **SessionStart** | Início/resume de qualquer sessão | `git pull` na memória + injeta `team_status` e bloqueios recentes como contexto, antes da primeira resposta |
-| **Stop** | Antes da sessão terminar | Se ninguém salvou um `status` nesta sessão ainda, pede pro Claude decidir se vale registrar um antes de fechar (não força — ignora se não houve trabalho relevante) |
-| **PostToolUse** (matcher `mcp__gbrain__save_memory`) | Depois de qualquer `save_memory` | `git add`/`commit`/`push` automático da pasta `memory/` — ninguém precisa lembrar de sincronizar |
+| **SessionStart** | Início/resume de qualquer sessão | `git pull` na memória + injeta `team_status`, bloqueios recentes E o board de cards (backlog/doing/done) como contexto, antes da primeira resposta — já dá pra sugerir "pega esse card do backlog" de cara |
+| **Stop** | Antes da sessão terminar | Se ninguém salvou um `status` nesta sessão ainda, pede pro Claude decidir se vale registrar um antes de fechar; se um card foi trabalhado, pede também pra atualizar o status dele e registrar o aprendizado (não força — ignora se não houve trabalho relevante) |
+| **PostToolUse** (matcher `save_memory\|create_card\|claim_card\|update_card`) | Depois de qualquer uma dessas tools | `git add`/`commit`/`push` automático de `memory/` e `cards/` — ninguém precisa lembrar de sincronizar. Mudanças de card também reescrevem a nota do board na hora, dentro do próprio tool handler (não depende do hook rodar) |
 
 Tudo best-effort: sem rede, sem remote configurado, ou qualquer erro nesses scripts NUNCA deve travar a sessão — eles engolem erro e deixam a sessão seguir normal.
 

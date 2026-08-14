@@ -3,6 +3,15 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { saveMemory, searchMemory, listRecent, getTeamStatus } from "./memoryStore.js";
+import {
+  listCards,
+  createCard,
+  claimCard,
+  updateCard,
+  CardNotFoundError,
+  type CardStatus,
+} from "./cardStore.js";
+import { syncBoardNote } from "./boardNote.js";
 
 const server = new McpServer({
   name: "gbrain",
@@ -133,6 +142,132 @@ server.registerTool(
       })
       .join("\n\n");
     return { content: [{ type: "text", text }] };
+  }
+);
+
+server.registerTool(
+  "list_cards",
+  {
+    title: "Ver o board de cards (GBRAIN)",
+    description:
+      "Mostra o board de cards do time (kanban): backlog, em andamento ('doing') e concluídos ('done'), com quem está executando cada um. Use no início de uma sessão pra saber o que está livre pra pegar, ou quando alguém perguntar 'o que tem pra fazer' / 'quem tá com o quê'. Pode filtrar por status ou por quem está atribuído.",
+    inputSchema: {
+      status: z
+        .enum(["backlog", "doing", "done"])
+        .optional()
+        .describe("Filtrar só por uma coluna do board"),
+      assignee: z.string().optional().describe("Filtrar só cards de uma pessoa"),
+    },
+  },
+  async ({ status, assignee }) => {
+    const cards = listCards({ status: status as CardStatus | undefined, assignee });
+    if (cards.length === 0) {
+      return { content: [{ type: "text", text: "Nenhum card encontrado com esse filtro." }] };
+    }
+    const text = cards
+      .map((c) => {
+        const who = c.assignee ? ` — atribuído a ${c.assignee}` : " — livre";
+        const tags = c.tags.length ? ` [${c.tags.join(", ")}]` : "";
+        return `[${c.slug}] (${c.status}) "${c.title}"${who}${tags}\n   ${c.content.slice(0, 200)}`;
+      })
+      .join("\n\n");
+    return { content: [{ type: "text", text }] };
+  }
+);
+
+server.registerTool(
+  "create_card",
+  {
+    title: "Criar card novo (GBRAIN)",
+    description:
+      "Cria um card novo no board (kanban) do time, começando em 'backlog'. Use quando uma ideia, tarefa ou pedaço de trabalho novo surgir e merecer virar algo rastreável pro time — não pra tudo, só pro que tem valor acompanhar.",
+    inputSchema: {
+      title: z.string().describe("Título curto do card"),
+      description: z.string().describe("Descrição em markdown do que precisa ser feito e por quê"),
+      author: z.string().describe("Nome de quem está criando o card"),
+      tags: z.array(z.string()).optional().describe("Tags livres, ex: ['silu', 'frontend']"),
+      assignee: z
+        .string()
+        .optional()
+        .describe("Se já nasce atribuído a alguém (padrão: sem dono, fica no backlog livre)"),
+    },
+  },
+  async ({ title, description, author, tags, assignee }) => {
+    const card = createCard({ title, description, author, tags, assignee });
+    syncBoardNote();
+    return {
+      content: [
+        { type: "text", text: `Card criado: "${title}" (slug: ${card.slug}, status: backlog).` },
+      ],
+    };
+  }
+);
+
+server.registerTool(
+  "claim_card",
+  {
+    title: "Pegar um card do board (GBRAIN)",
+    description:
+      "Assume um card do backlog: atribui a quem está pedindo e move pra 'doing'. Use quando o usuário disser que vai atacar um card específico, ou pedir 'me dá um card' (nesse caso, sugira um do backlog via list_cards primeiro).",
+    inputSchema: {
+      slug: z.string().describe("Slug do card a assumir (ver em list_cards)"),
+      author: z.string().describe("Nome de quem está assumindo o card"),
+      note: z.string().optional().describe("Nota opcional sobre como vai atacar o card"),
+    },
+  },
+  async ({ slug, author, note }) => {
+    try {
+      const card = claimCard(slug, author, note);
+      syncBoardNote();
+      return {
+        content: [
+          { type: "text", text: `Card "${card.title}" (${slug}) assumido por ${author} — status: doing.` },
+        ],
+      };
+    } catch (err) {
+      if (err instanceof CardNotFoundError) {
+        return { content: [{ type: "text", text: err.message }], isError: true };
+      }
+      throw err;
+    }
+  }
+);
+
+server.registerTool(
+  "update_card",
+  {
+    title: "Atualizar um card (GBRAIN)",
+    description:
+      "Atualiza status e/ou dono de um card existente, e/ou registra uma nota (aprendizado, progresso, motivo de bloqueio) no histórico do card. Use ao terminar de trabalhar num card ('done'), ao encontrar um bloqueio, ou pra deixar registrado o que foi aprendido — mesmo sem mudar de status.",
+    inputSchema: {
+      slug: z.string().describe("Slug do card a atualizar (ver em list_cards)"),
+      status: z.enum(["backlog", "doing", "done"]).optional().describe("Novo status, se mudou"),
+      assignee: z.string().optional().describe("Novo dono do card, se mudou (string vazia = devolve pro backlog sem dono)"),
+      note: z
+        .string()
+        .optional()
+        .describe("Nota a registrar no card: o que foi aprendido, progresso feito, ou motivo de bloqueio"),
+      author: z.string().describe("Nome de quem está atualizando o card"),
+    },
+  },
+  async ({ slug, status, assignee, note, author }) => {
+    try {
+      const card = updateCard({ slug, status: status as CardStatus | undefined, assignee, note, author });
+      syncBoardNote();
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Card "${card.title}" (${slug}) atualizado — status: ${card.status}${card.assignee ? `, dono: ${card.assignee}` : ""}.`,
+          },
+        ],
+      };
+    } catch (err) {
+      if (err instanceof CardNotFoundError) {
+        return { content: [{ type: "text", text: err.message }], isError: true };
+      }
+      throw err;
+    }
   }
 );
 

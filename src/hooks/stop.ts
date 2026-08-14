@@ -47,6 +47,8 @@ async function main() {
       reason:
         "Antes de terminar: se este trabalho merece continuidade, chame a tool mcp__gbrain__save_memory " +
         "(type: 'status', com nextStep claro) resumindo o que foi feito e o que falta. " +
+        "Se algum card do board foi trabalhado nesta sessão (mcp__gbrain__claim_card/update_card), " +
+        "atualize o status dele (ex: 'done' se terminou) e registre uma nota com o que foi aprendido, via mcp__gbrain__update_card. " +
         "Se a sessão não teve trabalho relevante (só pergunta, sem decisão/produção), ignore isto e finalize normalmente.",
     })
   );

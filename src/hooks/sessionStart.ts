@@ -6,6 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import { buildSessionContext } from "../memoryStore.js";
+import { buildBoardSummary } from "../cardStore.js";
 
 const REPO_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -28,7 +29,7 @@ async function main() {
     // sem rede / sem remote / conflito — não é motivo pra travar a sessão
   }
 
-  const context = buildSessionContext();
+  const context = buildSessionContext() + "\n\n" + buildBoardSummary();
 
   process.stdout.write(
     JSON.stringify({
