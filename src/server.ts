@@ -57,10 +57,17 @@ server.registerTool(
       tags: z.array(z.string()).optional().describe("Tags livres, ex: ['silu', 'arquitetura']"),
       author: z.string().describe("Nome de quem está registrando esta memória"),
       related: z.array(z.string()).optional().describe("Slugs de memórias relacionadas, se souber"),
+      nextStep: z
+        .string()
+        .optional()
+        .describe(
+          "Próximo passo claro pra quem for continuar isso (você mesmo ou outra pessoa). " +
+            "Especialmente importante em type='status' — é o que team_status/SessionStart mostram em destaque."
+        ),
     },
   },
-  async ({ title, content, type, tags, author, related }) => {
-    const result = saveMemory({ title, content, type, tags, author, related });
+  async ({ title, content, type, tags, author, related, nextStep }) => {
+    const result = saveMemory({ title, content, type, tags, author, related, nextStep });
     let text = `Memória salva: "${title}" (slug: ${result.slug}).`;
     if (result.possibleDuplicates.length > 0) {
       text +=
@@ -119,7 +126,11 @@ server.registerTool(
       };
     }
     const text = statuses
-      .map((s) => `**${s.author}** (${s.date}): ${s.title}\n   ${s.content.slice(0, 200)}`)
+      .map((s) => {
+        let line = `**${s.author}** (${s.date}): ${s.title}\n   ${s.content.slice(0, 200)}`;
+        if (s.nextStep) line += `\n   → Próximo passo: ${s.nextStep}`;
+        return line;
+      })
       .join("\n\n");
     return { content: [{ type: "text", text }] };
   }

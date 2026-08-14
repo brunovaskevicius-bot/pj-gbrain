@@ -20,6 +20,7 @@ export interface MemoryEntry {
   date: string;
   ts: string;
   related: string[];
+  nextStep: string;
   content: string;
 }
 
@@ -49,6 +50,7 @@ function readEntry(fileName: string): MemoryEntry {
     date: data.date ?? "",
     ts: data.ts ?? data.date ?? "",
     related: data.related ?? [],
+    nextStep: data.nextStep ?? "",
     content: content.trim(),
   };
 }
@@ -91,6 +93,7 @@ export interface SaveMemoryInput {
   tags?: string[];
   author: string;
   related?: string[];
+  nextStep?: string;
 }
 
 export interface SaveMemoryResult {
@@ -124,6 +127,7 @@ export function saveMemory(input: SaveMemoryInput): SaveMemoryResult {
     date,
     ts: nowISO(),
     related: input.related ?? [],
+    nextStep: input.nextStep ?? "",
   };
 
   const fileContent = matter.stringify(input.content.trim() + "\n", frontmatter);
@@ -222,4 +226,47 @@ export function getTeamStatus(): MemoryEntry[] {
     }
   }
   return [...latestByAuthor.values()].sort((a, b) => (b.ts || "").localeCompare(a.ts || ""));
+}
+
+/** Bloqueios recentes — v0 não tem mecanismo de "resolvido", então é só uma janela recente. */
+export function getRecentBlockers(limit = 5): MemoryEntry[] {
+  return listEntries()
+    .filter((e) => e.type === "bloqueio")
+    .sort((a, b) => (b.ts || "").localeCompare(a.ts || ""))
+    .slice(0, limit);
+}
+
+/**
+ * Texto pronto pra injetar como contexto no início de uma sessão (hook SessionStart):
+ * status de cada pessoa + próximo passo declarado + bloqueios abertos recentes.
+ */
+export function buildSessionContext(): string {
+  const statuses = getTeamStatus();
+  const blockers = getRecentBlockers(5);
+
+  const parts: string[] = ["## GBRAIN — contexto do time ao iniciar esta sessão"];
+
+  if (statuses.length === 0) {
+    parts.push("Nenhum status de trabalho registrado ainda por ninguém do time.");
+  } else {
+    parts.push("**Status mais recente de cada pessoa:**");
+    for (const s of statuses) {
+      let line = `- **${s.author}** (${s.date}): ${s.title} — ${s.content.slice(0, 200)}`;
+      if (s.nextStep) line += `\n  → Próximo passo declarado: ${s.nextStep}`;
+      parts.push(line);
+    }
+  }
+
+  if (blockers.length > 0) {
+    parts.push("\n**Bloqueios recentes (podem já estar resolvidos, v0 não rastreia isso):**");
+    for (const b of blockers) {
+      parts.push(`- **${b.author}** (${b.date}): ${b.title} — ${b.content.slice(0, 200)}`);
+    }
+  }
+
+  parts.push(
+    "\nSe o usuário pedir pra continuar um trabalho, use isso como ponto de partida em vez de perguntar do zero. Se este contexto contradizer o que o usuário disser agora, o que o usuário disser agora vale mais — isto é só o último snapshot conhecido."
+  );
+
+  return parts.join("\n");
 }
