@@ -11,7 +11,7 @@ Expõe 4 tools MCP:
 - **`search_memory(query, limit?)`** — busca por palavra-chave em título/tags/conteúdo, com scoring simples e snippet.
 - **`save_memory(title, content, type?, tags?, author, related?)`** — grava uma memória nova, com detecção de possível duplicata por similaridade de título (aviso, não bloqueio).
 - **`list_recent_memory(limit?)`** — lista as memórias mais recentes, pra retomar contexto de trabalho de outra pessoa.
-- **`team_status()`** — retorna o status mais recente de CADA pessoa (não o histórico) — responde direto "no que cada um tá trabalhando agora".
+- **`team_status()`** — retorna o status mais recente de CADA pessoa (não o histórico) — responde direto "no que cada um tá trabalhando agora". Cada status pode ter um `nextStep` — o próximo passo declarado por quem salvou.
 
 ## O que colocar aqui — taxonomia de `type`
 
@@ -49,10 +49,24 @@ Não é um servidor hospedado — é markdown versionado, então o compartilhame
 
 1. Este projeto (`gbrain-prototype/`) vira um repo git próprio (privado no GitHub da PJ ou pessoal seu).
 2. Cada aprendiz: `git clone` do repo → `npm install` → cria/edita o `.mcp.json` do próprio Claude Code apontando pra essa pasta clonada (mesmo formato do `.mcp.json` deste projeto, só que com paths relativos à raiz do clone: `node_modules/tsx/dist/cli.mjs` e `src/server.ts`, sem o prefixo `05 System/gbrain-prototype/`).
-3. Disciplina mínima: **`git pull` antes de começar a trabalhar, `git commit` + `git push` depois de qualquer `save_memory`** (ou uma rotina automática — dá pra automatizar depois com um hook, mas não agora).
+3. **Disciplina de sync é automática, não manual** — ver seção de hooks abaixo. `git pull` no início da sessão e `git commit`+`push` depois de cada `save_memory` já rodam sozinhos, via hooks do Claude Code.
 4. Conflito de merge no `memory/` é raro e barato de resolver — são arquivos markdown independentes, um por memória; só colide se duas pessoas criarem o mesmo slug no mesmo dia (o `saveMemory` já numera automaticamente pra evitar isso).
 
-**Quando isso vira dor** (várias pessoas esquecendo de sincronizar, precisa de tempo real): sobe pra um servidor MCP remoto (HTTP/SSE) com um backend simples por trás. Não construir isso agora — é o tipo de complexidade que a pesquisa (seção de governança do benchmark) diz pra adicionar só quando a dor for real, não antes.
+**Quando isso vira dor** (tempo real de verdade, não só sync assíncrono): sobe pra um servidor MCP remoto (HTTP/SSE) com um backend simples por trás. Não construir isso agora — é o tipo de complexidade que a pesquisa (seção de governança do benchmark) diz pra adicionar só quando a dor for real, não antes.
+
+## Automação via hooks (Claude Code)
+
+Configurados em `.claude/settings.json` na raiz do projeto — cada pessoa (você e os aprendizes) precisa ter os mesmos 3 hooks configurados no `.claude/settings.json` do próprio clone (copie o bloco `hooks` de lá, ajustando os paths se a estrutura de pastas do clone for diferente):
+
+| Hook | Evento | O que faz |
+|---|---|---|
+| **SessionStart** | Início/resume de qualquer sessão | `git pull` na memória + injeta `team_status` e bloqueios recentes como contexto, antes da primeira resposta |
+| **Stop** | Antes da sessão terminar | Se ninguém salvou um `status` nesta sessão ainda, pede pro Claude decidir se vale registrar um antes de fechar (não força — ignora se não houve trabalho relevante) |
+| **PostToolUse** (matcher `mcp__gbrain__save_memory`) | Depois de qualquer `save_memory` | `git add`/`commit`/`push` automático da pasta `memory/` — ninguém precisa lembrar de sincronizar |
+
+Tudo best-effort: sem rede, sem remote configurado, ou qualquer erro nesses scripts NUNCA deve travar a sessão — eles engolem erro e deixam a sessão seguir normal.
+
+**Importante:** hooks só são lidos quando a sessão inicia (ou via `/hooks` pra forçar reload numa sessão já aberta). Se você editou `.claude/settings.json` com a sessão já rodando, abra `/hooks` uma vez ou reinicie pra ativar.
 
 ## Próximos passos (não implementados ainda — são decisão de processo, não de código)
 
