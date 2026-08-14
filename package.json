@@ -1,0 +1,21 @@
+{
+  "name": "gbrain-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Protótipo v0 do GBRAIN — memória coletiva de agentes via MCP, sobre markdown versionado. PJ Assessor de Produtos 2026.2.",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "smoketest": "tsx src/smoketest.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "gray-matter": "^4.0.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  }
+}
