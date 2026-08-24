@@ -1,14 +1,14 @@
 ---
 title: Marcar benchs — cada aprendiz com núcleo próprio + comercial de outros núcleos
-status: backlog
-assignee: ''
+status: doing
+assignee: Bruno
 tags:
   - assessoria
   - benchmark
   - PJ
 author: Bruno
 created: '2026-08-15T00:08:32.916Z'
-updated: '2026-08-15T00:08:32.916Z'
+updated: '2026-08-24T10:59:03.944Z'
 ---
 Cada aprendiz (incluindo o Bruno) precisa marcar benchmarks:
 - **Com a equipe de inovação do próprio núcleo** — entender o que já rodam/testam internamente.
@@ -21,3 +21,6 @@ Objetivo: trazer inputs concretos pra execução dos 3 produtos priorizados (PCP
 2. Preparar perguntas específicas antes de cada bench (não ir sem roteiro).
 3. Marcar e rodar as calls.
 4. Registrar achados em `01 Benchmark/` ou nas pastas de execução dos produtos (`09`/`10`/`11`).
+
+---
+**2026-08-24 10:59 — Bruno:** Segunda reunião (Bruno + aprendizes) começando hoje: fechar meta de benchs + criar logins dos aprendizes no Valida NI pra eles poderem demonstrar a plataforma nos benchs.
