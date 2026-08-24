@@ -75,6 +75,14 @@ Configurados em `.claude/settings.json` na raiz do projeto — cada pessoa (voc�
 
 ⚠️ **Cuidado com o nome no matcher.** O `matcher` do `PostToolUse` casa por **string exata** contra o nome completo da tool — não é "contém". Tools MCP chegam como `mcp__<server>__<tool>` (aqui: `mcp__gbrain__save_memory`, não só `save_memory`). Um matcher com só o nome curto (`"save_memory|create_card|..."`) **nunca casa com nada** — o hook não dispara, nada é commitado/enviado, e como o script é best-effort (engole erro), a falha é 100% silenciosa: parece que está tudo certo, mas a memória fica presa local pra sempre. Sempre teste com `git status` no clone depois de um `save_memory` — se o arquivo aparecer como `??` (untracked) em vez de já commitado, o matcher está errado.
 
+**Ação necessária se você configurou os hooks antes de 2026-08-24:** esse bug estava no exemplo de `hooks` que todo mundo copiou (README e guia de instalação). `git pull` **não corrige isso pra você** — o `.claude/settings.json` de cada pessoa vive na raiz do próprio Vault, fora deste clone, então cada aprendiz precisa editar o próprio arquivo manualmente. Cole isto no lugar do `matcher` atual do `PostToolUse`:
+
+```
+"matcher": "mcp__gbrain__save_memory|mcp__gbrain__create_card|mcp__gbrain__claim_card|mcp__gbrain__update_card"
+```
+
+Depois de salvar, **reinicie a sessão do Claude** (abra uma conversa nova) pra recarregar o `.claude/settings.json` — hooks só são lidos no início da sessão.
+
 Tudo best-effort: sem rede, sem remote configurado, ou qualquer erro nesses scripts NUNCA deve travar a sessão — eles engolem erro e deixam a sessão seguir normal.
 
 **Importante:** hooks só são lidos quando a sessão inicia (ou via `/hooks` pra forçar reload numa sessão já aberta). Se você editou `.claude/settings.json` com a sessão já rodando, abra `/hooks` uma vez ou reinicie pra ativar.
