@@ -8,7 +8,7 @@ tags:
   - PJ
 author: Bruno
 created: '2026-08-15T00:08:32.916Z'
-updated: '2026-09-03T15:31:59.770Z'
+updated: '2026-09-07T17:00:34.722Z'
 ---
 Cada aprendiz (incluindo o Bruno) precisa marcar benchmarks:
 - **Com a equipe de inovação do próprio núcleo** — entender o que já rodam/testam internamente.
@@ -27,3 +27,6 @@ Objetivo: trazer inputs concretos pra execução dos 3 produtos priorizados (PCP
 
 ---
 **2026-09-03 15:31 — Bruno:** 1º bench de fato feito e registrado: Bruno + Ju Lee + Gabi (NCiv), sobre o "ValidaCiv" (versão NCiv do Valida NI). Achados completos em memória (slug do dia de hoje, tag valida-ni/bench/nciv) e no arquivo `NCIV + Produtos.md`. Confirma a dor do handoff comercial→entrega também do lado NCiv (conflito CN x PO por falta de processo de negociação estruturado). Segue em 'doing' — meta ainda é 15 benchs (5/pessoa) pro gate da Semana 1.
+
+---
+**2026-09-07 17:00 — Caqui:** Formalizei o roteiro dos benchs como artefato no vault: `01 Discovery/(C) Aprendizagem de Produtos - Roteiro de benchs (núcleo e comercial).md`. Contém Roteiro A (bench com comercial de outro núcleo — já é a decisão do Bruno de 24/08, sem alteração) e um Roteiro B novo (bench com a inovação do próprio núcleo — proposta minha, ainda não validada pelo time, precisa OK do Bruno/Naka antes de rodar em série). Segue faltando: cada aprendiz marcar de fato os 5 benchs/pessoa (meta 15 no total) — isso não muda de status ainda.
