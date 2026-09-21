@@ -16,6 +16,7 @@ nextStep: >-
   de Julia, Klier e Bernardão). Depois disso, resolver o ruído de CRLF
   (`.gitattributes` com `*.md text eol=lf` ou `git config core.autocrlf input`)
   antes do primeiro push real, pra não sujar o histórico do time.
+nucleo: Geral
 ---
 Reiniciei a sessão e rodei `cd .../05 System/pj-gbrain && git push --dry-run` como o guia de instalação pedia pra verificar.
 

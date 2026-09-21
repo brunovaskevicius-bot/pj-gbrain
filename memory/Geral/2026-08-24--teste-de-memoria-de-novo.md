@@ -8,5 +8,6 @@ date: '2026-08-24'
 ts: '2026-08-24T15:45:20.888Z'
 related: []
 nextStep: ''
+nucleo: Geral
 ---
 Registro de teste, repetido a pedido do Caqui, para validar o funcionamento do save_memory.

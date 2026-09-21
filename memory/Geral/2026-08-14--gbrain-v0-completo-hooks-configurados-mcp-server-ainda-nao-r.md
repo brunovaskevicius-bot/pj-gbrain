@@ -5,6 +5,7 @@ tags: []
 author: Bruno Vaskevicius
 date: '2026-08-14'
 related: []
+nucleo: Geral
 ---
 [Registrado como 'nota' porque o processo MCP desta sessão ainda está na versão antiga do server.ts — type 'status' ainda não é aceito. Numa sessão nova, o mesmo conteúdo deveria ser regravado como type: status.]
 

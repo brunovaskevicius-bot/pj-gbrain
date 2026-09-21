@@ -17,6 +17,7 @@ nextStep: >-
   Reestruturar CLAUDE.md e Current Status do projeto PJ — Assessor de Produtos
   2026.2 pra fase de execução (dev dos 3 produtos), e decidir se reorganiza
   pastas (histórico candidatura vs. material de execução por produto).
+nucleo: Geral
 ---
 Bruno foi **aprovado** como Assessor(a) de Produtos da Poli Júnior (entrevista de 11/08 já ocorreu). A missão mudou de "candidatura" pra "desenvolver de fato os produtos": PCP Automática, Silu e Valida NI — os mesmos 3 do desafio escrito, escopo não mudou.
 

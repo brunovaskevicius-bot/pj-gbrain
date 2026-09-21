@@ -18,6 +18,7 @@ nextStep: >-
   Também: registrar esse bench na contagem oficial dos 15 (card
   'marcar-benchs...') e ver se dá pra puxar Ju Lee/Gabi pra validar o template
   de ficha (por portfólio) direto com o time do Valida NI.
+nucleo: NCiv
 ---
 Bench registrado em `NCIV + Produtos.md` (raiz do projeto) — reunião NCiv x NI sobre o "ValidaCiv" (equivalente do Valida NI rodando no NCiv).
 

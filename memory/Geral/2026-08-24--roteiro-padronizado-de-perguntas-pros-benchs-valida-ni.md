@@ -11,6 +11,7 @@ ts: '2026-08-24T11:10:15.324Z'
 related:
   - 2026-08-24--prep-da-2-reuniao-meta-de-benchs-contas-valida-ni-pros-apren
 nextStep: ''
+nucleo: Geral
 ---
 Decisão: os benchs não são mais pra confirmar a dor (já validada) — são pra mapear processo + coletar artefatos reais de como cada núcleo valida hoje, alimentando o desenho do Valida NI v1. Roteiro padronizado pra todos os aprendizes usarem nos benchs (interno e externo), ancorado nos campos que o Valida NI v1 precisa cobrir (problema, decisor, prazo real, orçamento, escopo aceito/recusado, dono do lado Comercial, SLA visível pros dois lados):
 
