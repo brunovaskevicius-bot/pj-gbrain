@@ -8,7 +8,7 @@ tags:
   - docs
 author: Bruno
 created: '2026-09-21T17:56:32.076Z'
-updated: '2026-09-21T17:57:00.422Z'
+updated: '2026-09-21T18:00:44.654Z'
 ---
 Criar os docs de requisitos de cada versão do Valida NI (NI · CIValida/NCiv · ValidTech/NTec · ValidaCON/NCon), com foco principal na tabela de Requisitos Funcionais (RF).
 
@@ -22,3 +22,6 @@ Próximo passo: revisar o board do Miro núcleo a núcleo e preencher a RF de ca
 
 ---
 **2026-09-21 17:57 — Bruno:** Scaffold do doc base criado: [Requisitos — Valida NI · Base (NI)](https://docs.google.com/document/d/1Oc2QGbYMEZUXcaks6s17gyf6XFFHXuVk7nBMy99l21k/edit), estrutura baseada no PRD Rede Inspira, seção de Requisitos Funcionais dividida em 5 categorias (registro de escopo, validação pelo núcleo, notificações, métricas, autenticação) com placeholders "[completar a partir do Miro]" — não inventei conteúdo real de RF porque depende do fluxo específico mapeado no board do Miro. Falta: revisar o Miro núcleo a núcleo, preencher a tabela de RF do NI, e depois duplicar/adaptar o doc pra CIValida (NCiv), ValidTech (NTec) e ValidaCON (NCon).
+
+---
+**2026-09-21 18:00 — Bruno:** Correção: o scaffold anterior só cobria NI e faltava o NDados (5 núcleos reais: NI, NCiv, NCon, NTec, NDados). Doc antigo (só NI) foi pra lixeira do Drive; refeito como [Requisitos — Valida NI (por Núcleo)](https://docs.google.com/document/d/12UxKMgms4_-RJpJkUE3fYJQzfs9qPCo7unMrCD2QRK4/edit) — agora com uma seção e uma tabela de RF própria pra cada núcleo (NI/Valida NI, NCiv/CIValida, NTec/ValidTech, NCon/ValidaCON, NDados/nome a definir), todas com placeholder "[completar a partir do Miro]". NDados não tem nome de versão nem gerente confirmado no fluxo — Lucas Reis é o gerente do núcleo, mas o processo específico ainda não está mapeado.
