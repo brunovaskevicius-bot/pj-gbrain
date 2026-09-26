@@ -14,6 +14,7 @@ nextStep: >-
   Bruno decidir se vincula o card a `12 Assessoria — Acompanhamento Geral/` como
   item da semana; depois, cada aprendiz define com quem vai marcar bench e
   prepara perguntas específicas antes de rodar as calls.
+nucleo: Geral
 ---
 Criado o primeiro card do board (estava vazio): "Marcar benchs — cada aprendiz com núcleo próprio + comercial de outros núcleos" (status: backlog, sem dono).
 

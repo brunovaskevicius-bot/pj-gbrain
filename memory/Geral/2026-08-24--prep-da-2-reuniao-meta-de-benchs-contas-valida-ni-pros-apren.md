@@ -14,6 +14,7 @@ nextStep: >-
   Depois: registrar quem ficou responsável por benchar quem (com prazo) e
   atualizar o card 'marcar-benchs...' pra 'done' quando os benchs estiverem de
   fato marcados (não só a reunião feita).
+nucleo: Geral
 ---
 Preparado o roteiro pra 2ª reunião de hoje (Bruno + aprendizes, sem stakeholder externo). Dois objetivos da call: (1) fechar a meta de benchs do ciclo, (2) criar login no Valida NI pra aprendizes que ainda não têm acesso, pra poderem demonstrar a plataforma durante os benchs.
 

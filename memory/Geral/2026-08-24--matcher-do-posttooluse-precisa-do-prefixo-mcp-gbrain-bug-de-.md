@@ -15,6 +15,7 @@ ts: '2026-08-24T15:41:29.840Z'
 related:
   - 2026-08-24--teste-git-push-dry-run-no-pj-gbrain-ainda-403
 nextStep: ''
+nucleo: Geral
 ---
 O hook `PostToolUse` que faz `git add/commit/push` automático depois de `save_memory`/`create_card`/`claim_card`/`update_card` nunca disparou pra ninguém que seguiu o guia de instalação — e a falha era 100% silenciosa (script best-effort engole erro).
 

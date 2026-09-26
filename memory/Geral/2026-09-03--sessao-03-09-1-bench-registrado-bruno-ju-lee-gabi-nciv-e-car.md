@@ -17,5 +17,6 @@ nextStep: >-
   assim que acontecer (memória tipo aprendizado + nota no card). Levar o achado
   do handoff comercial→entrega (confirmado agora nos dois lados, NCiv e NI) pro
   Carlos Jaques pra fechar a validação da dor #1 do RICE.
+nucleo: Geral
 ---
 Verifiquei o histórico e confirmei que até agora nenhum bench da meta (15 no total, 5/pessoa, gate da Semana 1 Discovery) tinha sido registrado — só a reunião de 24/08 que definiu o roteiro/perguntas. Bruno trouxe um bench real já feito (arquivo `NCIV + Produtos.md`, na raiz do projeto): conversa com Ju Lee + Gabi (NCiv) sobre o "ValidaCiv". Subi o conteúdo pra memória permanente (tipo aprendizado, slug `2026-09-03--bench-bruno-ju-lee-gabi-nciv-validaciv-handoff-comercial-pro`) e atualizei o card `marcar-benchs-cada-aprendiz-com-nucleo-proprio-comercial-de-` com nota de progresso (card segue 'doing').
