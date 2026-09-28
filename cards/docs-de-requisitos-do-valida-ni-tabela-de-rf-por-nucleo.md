@@ -8,7 +8,7 @@ tags:
   - docs
 author: Bruno
 created: '2026-09-21T17:56:32.076Z'
-updated: '2026-09-24T13:04:44.868Z'
+updated: '2026-09-28T13:28:07.071Z'
 ---
 Criar os docs de requisitos de cada versão do Valida NI (NI · CIValida/NCiv · ValidTech/NTec · ValidaCON/NCon), com foco principal na tabela de Requisitos Funcionais (RF).
 
@@ -34,3 +34,12 @@ Escopo confirmado com Bruno (pergunta direta): esse mecanismo é específico do 
 Draftei a RF real pra seção 2.3 (NTec — ValidTech) em `11 Valida NI/(C) RF — ValidTech (NTec).md`: RF-NTec-01 (registro via transcrição), 02 (IA gera rascunho no padrão ValeDOC), 03 (validação humana obrigatória antes de ir pro Comercial/cliente — princípio puxado do próprio ValeDOC, seção do prontuário assistido por IA), 04 (notificações), 05 (métricas), 06 (login). Ainda NÃO foi pra dentro do Google Doc mestre — Bruno vai revisar no vault primeiro.
 
 Pendências levantadas: (1) o prompt/spec exato do agente de IA fica pra depois, como Skill em `06 Skills/` — não faz parte do doc de requisitos; (2) falta confirmar com Gabriel Gáudio (gerente NTec) se o handoff real passa por call transcrita e onde essa transcrição nasce (Fireflies/Otter/gravação nativa) — pré-requisito de infra pro RF-NTec-01.
+
+---
+**2026-09-28 13:28 — Bruno:** Draftei a RF do ValiDADOS (NDados) a partir de uma ata de reunião (transcrição informal, meio suja — teve trecho truncado que precisei confirmar com Bruno: "gravação do BS" = gravação da call de validação). Arquivo: `11 Valida NI/(C) RF — ValiDADOS (NDados).md`.
+
+Escopo confirmado com Bruno (3 perguntas diretas): (1) ValiDADOS valida escopo/demanda comercial, mesmo padrão dos outros núcleos (Definition of Ready) — não é review de entregável de aprendiz; (2) os cards vivem dentro do próprio app Valida NI (módulo "Cards"), não em ferramenta terceira; (3) confirmado o trecho truncado da ata.
+
+7 RF propostos pra seção 2.5 (NDados): card com checklist de Definition of Ready (01), validação item-a-item pelo núcleo (02), pasta de Drive automática por card via API pra anexos/gravação de call (03), v1 100% manual sem IA — combinado explicitamente na reunião pro time se acostumar com a plataforma antes de automatizar (04), resultado de validação público pra todo o núcleo — valor declarado pra aprendizes aprenderem o padrão (05), notificações (06) e login/perfis (07) mantidos como placeholder porque a ata não cobriu isso. MCP pra discussão/validação via mensagens foi registrado como direção futura, fora do escopo da v1.
+
+Pendências: identificar o papel da Bibi (voz mais forte da call, mas o gerente formal listado é Lucas Reis) e confirmar RF-06/07 com ele. Ainda não editei o Google Doc mestre — mesma limitação de ferramenta do RF do NTec (sem edição de conteúdo no Docs, só leitura), o texto fica pronto pra Bruno colar.
