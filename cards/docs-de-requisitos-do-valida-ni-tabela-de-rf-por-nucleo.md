@@ -8,7 +8,7 @@ tags:
   - docs
 author: Bruno
 created: '2026-09-21T17:56:32.076Z'
-updated: '2026-09-28T13:28:07.071Z'
+updated: '2026-10-01T19:35:57.113Z'
 ---
 Criar os docs de requisitos de cada versão do Valida NI (NI · CIValida/NCiv · ValidTech/NTec · ValidaCON/NCon), com foco principal na tabela de Requisitos Funcionais (RF).
 
@@ -43,3 +43,6 @@ Escopo confirmado com Bruno (3 perguntas diretas): (1) ValiDADOS valida escopo/d
 7 RF propostos pra seção 2.5 (NDados): card com checklist de Definition of Ready (01), validação item-a-item pelo núcleo (02), pasta de Drive automática por card via API pra anexos/gravação de call (03), v1 100% manual sem IA — combinado explicitamente na reunião pro time se acostumar com a plataforma antes de automatizar (04), resultado de validação público pra todo o núcleo — valor declarado pra aprendizes aprenderem o padrão (05), notificações (06) e login/perfis (07) mantidos como placeholder porque a ata não cobriu isso. MCP pra discussão/validação via mensagens foi registrado como direção futura, fora do escopo da v1.
 
 Pendências: identificar o papel da Bibi (voz mais forte da call, mas o gerente formal listado é Lucas Reis) e confirmar RF-06/07 com ele. Ainda não editei o Google Doc mestre — mesma limitação de ferramenta do RF do NTec (sem edição de conteúdo no Docs, só leitura), o texto fica pronto pra Bruno colar.
+
+---
+**2026-10-01 19:35 — Caqui:** 2026-10-01, Caqui: a seção 2.3 (NTec, ValidaTech com nome provisório) foi reescrita em 12 RFs, na ordem do fluxo do Miro e confirmada com o Caqui. As linhas antigas foram juntadas: 01+06, 02+08 e 05+09; o 07 virou o RF-02. Entraram RFs novos para os gargalos que estavam sem cobertura: pré-validação por IA, fila com aceite, feedback visível com consulta ao CP, base de features e integrações, prompt da proposta, biblioteca de prompts, prazos contados a partir da reunião de proposta e métricas de superdimensionamento. O texto pronto para colar está em `02 Especificação/(C) ValidaTech - requisitos funcionais (NTec).md`, no vault do Caqui. Antes de fechar faltam 4 respostas do NTec: como funciona a extração do Lovable, se registram horas reais por feature, os prazos em dias e as faixas de carga. O card continua em doing porque os outros núcleos ainda estão abertos.
